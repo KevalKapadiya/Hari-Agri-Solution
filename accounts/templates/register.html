@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("{% static 'images/login_back.jpg' %}");
+            min-height: 100%;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-size: cover;
+            -moz-background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(179, 133, 35, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333333;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #333333;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="password"],
+        select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #333333;
+        }
+
+        select {
+            background-color: #ffffff;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #c8a30fec;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: rgb(182, 141, 57);
+        }
+
+        #no_acc:hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Registration Form</h2>
+        {% if messages %}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <div class="alert alert-primary" role="alert">
+            {% for message in messages %}
+                {{message}}
+            {% endfor %}
+            
+        </div>
+
+        {% endif %} 
+            <form  method="post">
+
+                {% csrf_token %}
+                <label for="last-name">Full Name:</label>
+                <input type="text" id="last-name" name="full_name" placeholder="Enter your last name" required>
+        
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <label for="password">Create Password : </label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        
+                <label for="phone">Mobile Number:</label>
+                <input type="tel" id="phone" name="mobile_no" placeholder="Enter your mobile number" required>
+        
+                <label for="location">Address:</label>
+                <input type="text" name="address" id="location" placeholder="Enter your address">
+        
+                <label for="status">Status:</label>
+                <select id="status" name="status">
+                    <option value="labour">Labour</option>
+                    <option value="farmer">Farmer</option>
+                </select>
+        
+                <!-- Additional field for land size -->
+                <div id="land-field" style="display: none;">
+                    <label for="land">Land (acres):</label>
+                    <input type="number" id="land" name="amount_of_land" placeholder="Enter land size in acres">
+                    <br>
+                </div>
+                <br>
+
+                <!-- Password field -->
+                
+                <br>
+        
+                <button type="submit">Submit</button>
+                <h3 id="no_acc" onclick="location.href='/login'">Already have an Account</h3>
+            </form>
+    </div>
+
+    <script>
+        const statusSelect = document.getElementById('status');
+        const locationSelect = document.getElementById('location');
+        const landField = document.getElementById('land-field'); // Reference to the land field container
+
+        const options = {
+            labour: ['Location 1', 'Location 2', 'Location 3'],
+            farmer: ['Acre 1', 'Acre 2', 'Acre 3']
+        };
+
+        function updateLocations() {
+            const selectedStatus = statusSelect.value;
+            const locations = options[selectedStatus];
+
+            locationSelect.innerHTML = ''; // Clear existing options
+
+            locations.forEach(location => {
+                const optionElement = document.createElement('option');
+                optionElement.value = location.toLowerCase().replace(' ', '');
+                optionElement.textContent = location;
+                locationSelect.appendChild(optionElement);
+            });
+
+            // Show or hide the land field based on the selected status
+            if (selectedStatus === 'farmer') {
+                landField.style.display = 'block';
+            } else {
+                landField.style.display = 'none';
+            }
+        }
+
+        // Initial population of the location dropdown based on default status
+        updateLocations();
+
+        // Update location options when status changes
+        statusSelect.addEventListener('change', updateLocations);
+
+    </script>
+
+</body>
+
+</html>

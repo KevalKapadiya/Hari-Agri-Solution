@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'find_work',
     'labour_hiring',
     'home',
-    'gondal_yard'
+    'gondal_yard',
+    'accounts'
 ]
 
 MIDDLEWARE = [
@@ -64,6 +65,7 @@ TEMPLATES = [
             BASE_DIR/"find_work/templates",
             BASE_DIR/"home/templates",
             BASE_DIR/"gondal_yard/templates",
+            BASE_DIR/"accounts/templates",
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -134,6 +136,10 @@ STATICFILES_DIRS = [
 ] 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'public/media')
+
+
+# AUTH_USER_MODEL = 'accounts.CustomUser'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
