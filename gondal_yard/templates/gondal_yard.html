@@ -1,0 +1,126 @@
+{% extends "index.html" %}
+
+
+{% block title %}
+    gondel-yard
+{% endblock title %}
+    
+
+{% block body %}
+<style>
+form {
+    width: 60%;
+    margin: auto;
+    margin-top: 50px;
+    padding: 20px;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Include padding and border in element's width/height */
+}
+
+input[type="submit"] {
+    background-color: rgb(52, 68, 84);
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+input[type="submit"]:hover {
+    background-color: rgb(42, 55, 68);
+}
+
+.box {
+    width: 60%;
+    margin: 20px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.box .date-time {
+    font-weight: bold;
+    text-align: left;
+}
+
+.box .grain-info {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+.box .turn-info {
+    margin-top: 15px;
+    text-align: right;
+    font-size: 0.9em;
+}
+#heading{
+    text-align: center;
+    font-size:40px;
+
+}
+.whole_body{
+    margin-left: 10%;
+}
+</style>
+<div class="whole_body">
+    <form>
+        <h1 id="heading">Gondal Marketing Yard</h1>
+        <br><hr>
+        <h1>Apply for Selling your Grain</h1>
+        
+        <label for="grain-type">Type of Grain:</label>
+        <select id="grain-type" name="grain-type" required>
+            <option value="" disabled selected>Select grain type</option>
+            <option value="wheat">Wheat</option>
+            <option value="rice">Rice</option>
+            <option value="maize">Maize</option>
+            <option value="barley">Barley</option>
+        </select>
+    
+        <label for="amount">Amount (in kg):</label>
+        <input type="number" id="amount" name="amount" required min="1">
+    
+        <input type="submit" value="Register">
+    </form>
+    
+    <div class="box">
+        <div class="date-time">
+            Date: August 10, 2024 - Time: 12:00 PM
+        </div>
+        <div class="grain-info">
+            Type of Grain: Wheat<br>
+            Amount of Grain: 50 kg
+        </div>
+        <div class="turn-info">
+            Your Turn: 15th<br>
+            Accepted Date You Must Arrive: August 12, 2024
+        </div>
+    </div>
+</div>
+
+
+{% endblock body %}

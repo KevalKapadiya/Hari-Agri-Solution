@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        {% block title %}
+        Hari Aegri Solution
+        {% endblock title %}
+    </title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: "Roboto", sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+
+        /* Navigation Bar */
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(44, 62, 80, 1);
+            padding: 15px 30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            color: white;
+            position: sticky;
+            /* Make the navbar sticky */
+            top: 0;
+            /* Set the top position to 0 */
+            z-index: 1000;
+            /* Ensure it stays above other content */
+        }
+
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+            border-radius: 50%;
+            background-color: #ecf0f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo img {
+            margin-right: 20px;
+            /* Adjust the value to control the space */
+        }
+
+        .company-name {
+            font-size: 26px;
+            font-weight: bold;
+            color: rgba(193, 158, 17, 1);
+            /* #c19e11 */
+            letter-spacing: 1px;
+        }
+
+        .navbar-right .nav-button {
+            background-color: rgba(193,
+                    158,
+                    17,
+                    0.9);
+            /* #c19e11 with 90% opacity */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-left: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar-right .nav-button:hover {
+            background-color: rgba(193, 158, 17, 1);
+            /* #c19e11 */
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 80px;
+            /* Adjusted for the height of the navbar */
+            left: 0;
+            width: 240px;
+            height: calc(100% - 80px);
+            /* Make sure the sidebar takes full height minus the navbar */
+            background-color: rgba(52, 73, 94, 1);
+            padding-top: 30px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-button {
+            display: block;
+            width: 100%;
+            background-color: transparent;
+            color: white;
+            padding: 15px 20px;
+            text-align: left;
+            border: none;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(44, 62, 80, 1);
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar-button:hover {
+            background-color: rgba(193, 158, 17, 1);
+            /* #c19e11 */
+        }
+
+        /* Dropdown */
+        .dropdown {
+            position: relative;
+            display: block;
+            width: 100%;
+        }
+
+        /* Dropdown */
+        .dropdown-content {
+            display: none;
+            background-color: rgba(193, 158, 17, 1);
+            /* Updated background color */
+            position: absolute;
+            left: 0;
+            top: 100%;
+            
+            width: 100%;
+            z-index: 1;
+            border: 1px solid rgba(44, 62, 80, 1);
+        }
+
+        .dropdown-content a {
+            padding: 12px 16px;
+            display: block;
+            color: white;
+            /* Updated text color */
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-content a:hover {
+            background-color: rgba(52, 73, 94, 1);
+            /* Updated hover background color */
+        }
+
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Main Content */
+        .content {
+            margin-left: 250px;
+            padding: 40px;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            margin-top: 30px;
+            position: relative;
+            /* Position for absolute image */
+            overflow: hidden;
+            /* Prevent overflow from background images */
+            height: calc(60vh - 20px);
+            /* Set height to viewport height minus navbar height */
+            width: calc(96% - 30vh);
+        }
+
+        .content h1 {
+            font-size: 32px;
+            color: rgba(44, 62, 80, 1);
+            margin-bottom: 20px;
+        }
+
+        .content p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #555;
+            height: 10%;
+        }
+
+        /* Background images */
+        .bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 100%;
+            /* Set to 100% to fill content height */
+            width: 97%;
+            /* Set to 100% to fill content width */
+            background-size: cover;
+            background-position: center;
+            opacity: 0.01;
+            /* Decreased transparency for better text visibility */
+            transition: opacity 1s ease-in-out;
+            /* Fade effect */
+        }
+
+        .bg-image.visible {
+            opacity: 0.8;
+        }
+
+        .bg-overlay {
+            position: absolute;
+            top: 0%;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.5);
+            /* Semi-transparent black overlay */
+            z-index: 1;
+            /* Ensure overlay is on top of the background images */
+            height: 100%;
+        }
+
+        .text-overlay {
+            position: absolute;
+            /* Position relative to the content */
+            top: 35%;
+            /* Adjust as needed */
+            left: 50%;
+            transform: translateX(-50%);
+            /* Center horizontally */
+            color: white;
+            /* Text color */
+            text-align: center;
+            /* Center align text */
+            z-index: 2;
+            /* Ensure it appears above the background images */
+        }
+
+        .text-overlay h2 {
+            font-size: 56px;
+            font-family: 'Courier New', Courier, monospace;
+            /* Adjust font size */
+            margin: 10px 0;
+            /* Margin for spacing */
+            color: rgba(44, 62, 80, 1)
+        }
+
+        .text-overlay p {
+            font-size: 18px;
+            /* Adjust font size */
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 20px;
+            }
+
+            .navbar-right {
+                margin-top: 10px;
+            }
+
+            .content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: static;
+            }
+
+            .sidebar-button {
+                width: 100%;
+            }
+
+            .dropdown-content a {
+                position: relative;
+                background-color: red;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <div class="logo">
+                <!-- Insert a logo image here -->
+                {% load static %}
+                <img src="{% static 'images/logo.jpg' %}" alt=""
+                    style="width: 80px; height: 80px; border-radius: 80px" />
+            </div>
+            <span class="company-name">Hari Agri Solution</span>
+        </div>
+        <div class="navbar-right">
+            <!-- <button class="nav-button">Login</button> -->
+            <!-- <button class="nav-button">Register</button> -->
+            <button class="nav-button">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <button class="sidebar-button" onclick="location.href='/';">Home</button>
+
+        <div class="dropdown">
+            <button class="sidebar-button">Select Marketing Yard &#9662;</button>
+            <div class="dropdown-content">
+                <a href="gondal-yard/">Gondal Yard</a>
+                <a href="#">Rajkot Yard</a>
+                <!-- <a href="#">Ahmedabad Yard</a> -->
+            </div>
+        </div>
+        <button class="sidebar-button">Hire Day Labour</button>
+        <button class="sidebar-button">Find Work</button>
+        <button class="sidebar-button">About Us</button>
+    </aside>
+
+    <!-- Main Content -->
+
+    {% block body %}
+
+
+
+
+
+
+
+    <main class="content">
+
+
+        <!-- New text containers for each background image -->
+        <div class="text-overlay" id="text1">
+            <h2>Apply for selling your crop in your Nearest marketing yard</h2>
+            <!-- <p>Description for Image 1.</p> -->
+        </div>
+        <div class="text-overlay" id="text2" style="display: none">
+            <h2>Find Day labour Easily</h2>
+            <!-- <p>Description for Image 2.</p> -->
+        </div>
+        <div class="text-overlay" id="text3" style="display: none">
+            <h2>Track your turn to unload your Grains in yard</h2>
+            <!-- <p>Description for Image 3.</p> -->
+        </div>
+        <div class="text-overlay" id="text3" style="display: none">
+            <h2>Find your today's convient work location</h2>
+            <!-- <p>Description for Image 3.</p> -->
+        </div>
+
+        <div class="bg-image" id="bg1" style="background-image: url('static/images/img1.jpeg')"></div>
+        <div class="bg-image" id="bg2" style="background-image: url('static/images/img2.jpeg')"></div>
+        <div class="bg-image" id="bg3" style="background-image: url('static/images/img3.jpeg')"></div>
+        <div class="bg-image" id="bg3" style="background-image: url('static/images/img4.jpeg')"></div>
+
+        <div class="bg-overlay"></div>
+
+    </main>
+
+
+    {% endblock body %}
+
+    <script>
+        const images = document.querySelectorAll(".bg-image");
+        const texts = document.querySelectorAll(".text-overlay"); // Get all text overlays
+        let currentIndex = 0;
+
+        function switchBackground() {
+            images[currentIndex].classList.remove("visible");
+            texts[currentIndex].style.display = "none"; // Hide the current text
+
+            currentIndex = (currentIndex + 1) % images.length;
+
+            images[currentIndex].classList.add("visible");
+            texts[currentIndex].style.display = "block"; // Show the new text
+        }
+
+        // Start with the first image visible
+        images[currentIndex].classList.add("visible");
+        texts[currentIndex].style.display = "block"; // Show the corresponding text for the first image
+
+        // Change the background every 2 seconds
+        setInterval(switchBackground, 2000);
+    </script>
+</body>
+
+</html>
