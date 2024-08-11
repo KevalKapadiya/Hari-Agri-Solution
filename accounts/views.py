@@ -1,18 +1,34 @@
 from django.shortcuts import render, redirect
 from accounts.models import *
 from django.contrib import messages
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
 def login(request):
-    return render(request, 'login.html')
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        
+        if not AgriUser.objects.filter(username = username).exists():
+            messages.info(request, "Invalid Username")
+            return redirect('/login/')
+        user = authenticate(username = username, password = password)
+        if user is None :
+            messages.error(request, "Invalid Password")
+            return redirect('/login/')
+        else :
+            auth_login(request, user)
+            return redirect('/')
+        
+        
+    return render(request, "login.html")
+        
+ 
 
 
-def register(request):
-    
-    
-    from django.shortcuts import render, redirect
-from .models import AgriUser
+
 
 def register(request):
     if request.method == 'POST':
